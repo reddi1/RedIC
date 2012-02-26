@@ -1,19 +1,36 @@
 RedIC
 
-Collection of one IC to change wool colors of multiple blocks with redstone events.
+Collection of three ICs to change wool colors or wool blocks of multiple blocks with redstone events.
 
 
-
-
-
-TOGGLE IC
 Usage:
 
-Place a sign on a block and write the following lines in line 2,3 and 4:
+Place a sign on a block and write the following lines for the different ICs (first line not necessary):
 
-[RedIC1000]
+
+TOGGLE
+[RC1000]
 0:0
 0:1:0:1:1:1
 
 Thrid line: Damage Value for wool color activeColor:inactiveColor.
 Fourth line: OffsetX:OffsetY:OffsetZ:width:length:height.
+
+
+COPY
+[RC1001]
+0:1:0:1:1:1
+0:0:0
+
+Thrid line: FromOffsetX:FromOffsetY:FromOffsetZ:width:length:height.
+Fourth line: ToOffsetX:ToOffsetY:ToOffsetZ
+
+
+SWITCH
+[RC1001]
+0:1:0:1:1:1
+0:0:0
+
+Thrid line: FromOffsetX:FromOffsetY:FromOffsetZ:width:length:height.
+Fourth line: ToOffsetX:ToOffsetY:ToOffsetZ
+
