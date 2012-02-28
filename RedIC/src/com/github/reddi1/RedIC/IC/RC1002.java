@@ -1,55 +1,42 @@
 package com.github.reddi1.RedIC.IC;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.block.SignChangeEvent;
 
 import com.github.reddi1.RedIC.RedIC;
 
 public class RC1002 extends RedICBase {
 
-	private String name = "SWITCH";
-	private String ic = "[RC1002]";
+	public static String name = "SWITCH";
+	public static String ic = "[RC1002]";
+	public static int valsInLineThree = 6;
+	public static int valsInLineFour = 3;
 
 	public RC1002(RedIC plugin, SignChangeEvent event) {
 		super(plugin, event);
-		Player player = event.getPlayer();
-
-		if (!matchLine(event.getLine(3), 3)) {
-			cancel(event, 3, 3);
-			return;
-		}
-		if (!matchLine(event.getLine(2), 6)) {
-			cancel(event, 2, 6);
-			return;
-		}
-
-		event.setLine(0, name);
-		event.setLine(1, ic);
-
-		player.sendMessage(ChatColor.GREEN + "RedIC " + name + " created");
 	}
 
-	public static void activate(Sign sign, int current, BlockRedstoneEvent event) {
+	public static void activate(Sign sign, boolean powered) {
 
-		String[] dmg = sign.getLine(3).split(":");
-		int toX = Integer.valueOf(dmg[0]);
-		int toY = Integer.valueOf(dmg[1]);
-		int toZ = Integer.valueOf(dmg[2]);
+		if (!checkSignValid(sign, valsInLineThree, valsInLineFour))
+			return;
 
-		String[] locs = sign.getLine(2).split(":");
-		int xOffset = Integer.valueOf(locs[0]);
-		int yOffset = Integer.valueOf(locs[1]);
-		int zOffset = Integer.valueOf(locs[2]);
-		int width = Integer.valueOf(locs[3]);
-		int length = Integer.valueOf(locs[4]);
-		int height = Integer.valueOf(locs[5]);
+		int[] locs = lineValues(sign.getLine(2));
+		int xOffset = locs[0];
+		int yOffset = locs[1];
+		int zOffset = locs[2];
+		int width = locs[3];
+		int length = locs[4];
+		int height = locs[5];
+
+		int[] to = lineValues(sign.getLine(3));
+		int toX = to[0];
+		int toY = to[1];
+		int toZ = to[2];
 
 		World w = sign.getWorld();
 
@@ -67,7 +54,7 @@ public class RC1002 extends RedICBase {
 							startLoc.getY() + y, startLoc.getZ() + z);
 					Location currentToLocation = new Location(toLoc.getWorld(),
 							toLoc.getX() + x, toLoc.getY() + y, toLoc.getZ()
-							+ z);
+									+ z);
 					Block fromBlock = w.getBlockAt(currentFromLocation);
 					Block toBlock = w.getBlockAt(currentToLocation);
 
@@ -96,5 +83,25 @@ public class RC1002 extends RedICBase {
 			}
 		}
 
+	}
+
+	@Override
+	public int getValsInLineThree() {
+		return valsInLineThree;
+	}
+
+	@Override
+	public int getValsInLineFour() {
+		return valsInLineFour;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String getIC() {
+		return ic;
 	}
 }

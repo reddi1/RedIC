@@ -4,19 +4,35 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
-import org.bukkit.event.Event;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.reddi1.RedIC.RedIC;
 
-public class RedICBase {
+public abstract class RedICBase {
 
 	public static RedIC plugin;
 
-	public RedICBase(RedIC redICPlugin, Event event) {
+	public RedICBase(RedIC redICPlugin, SignChangeEvent event) {
 		plugin = redICPlugin;
+		checkValid(event);
+		Player player = event.getPlayer();
+		if (!event.isCancelled()) {
+			event.setLine(0, getName());
+			event.setLine(1, getIC());
+			player.sendMessage(ChatColor.GREEN + "RedIC " + getName()
+					+ " created");
+		}
 	}
+
+	protected abstract int getValsInLineThree();
+
+	protected abstract int getValsInLineFour();
+
+	protected abstract String getName();
+
+	protected abstract String getIC();
 
 	public static void cancel(SignChangeEvent event, int line, int num) {
 		event.setCancelled(true);
@@ -80,7 +96,29 @@ public class RedICBase {
 		return loc;
 	}
 
-	public Boolean matchLine(String line, int num) {
+	public void checkValid(SignChangeEvent event) {
+		if (!matchLine(event.getLine(2), getValsInLineThree())) {
+			cancel(event, 2, getValsInLineThree());
+			return;
+		}
+		if (!matchLine(event.getLine(3), getValsInLineFour())) {
+			cancel(event, 3, getValsInLineFour());
+			return;
+		}
+	}
+
+	public static Boolean checkSignValid(Sign sign, int valsInLineThree,
+			int valsInLineFour) {
+		if (!matchLine(sign.getLine(2), valsInLineThree)) {
+			return false;
+		}
+		if (!matchLine(sign.getLine(3), valsInLineFour)) {
+			return false;
+		}
+		return true;
+	}
+
+	public static Boolean matchLine(String line, int num) {
 		switch (num) {
 		case 1:
 			return line.matches("\\d+");
@@ -98,11 +136,8 @@ public class RedICBase {
 		return false;
 	}
 
-	public int[] lineValues(String line) {
+	public static int[] lineValues(String line) {
 		String[] vals = line.split(":");
-		if (!matchLine(line, vals.length))
-			return new int[0];
-
 		int[] result = new int[vals.length];
 		for (int i = 0; i < vals.length; i++) {
 			result[i] = Integer.valueOf(vals[i]);
