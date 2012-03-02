@@ -121,17 +121,17 @@ public abstract class RedICBase {
 	public static Boolean matchLine(String line, int num) {
 		switch (num) {
 		case 1:
-			return line.matches("\\d+");
+			return line.matches("\\-?\\d+");
 		case 2:
-			return line.matches("\\d+:\\d+");
+			return line.matches("\\-?\\d+:\\-?\\d+");
 		case 3:
-			return line.matches("\\d+:\\d+:\\d+");
+			return line.matches("\\-?\\d+:\\-?\\d+:\\-?\\d+");
 		case 4:
-			return line.matches("\\d+:\\d+:\\d+:\\d+");
+			return line.matches("\\-?\\d+:\\-?\\d+:\\-?\\d+:\\-?\\d+");
 		case 5:
-			return line.matches("\\d+:\\d+:\\d+:\\d+:\\d+");
+			return line.matches("\\-?\\d+:\\-?\\d+:\\-?\\d+:\\-?\\d+:\\-?\\d+");
 		case 6:
-			return line.matches("\\d+:\\d+:\\d+:\\d+:\\d+:\\d+");
+			return line.matches("\\-?\\d+:\\-?\\d+:\\-?\\d+:\\-?\\d+:\\-?\\d+:\\-?\\d+");
 		}
 		return false;
 	}

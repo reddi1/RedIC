@@ -60,6 +60,9 @@ public class RedICListener implements Listener {
 			case 1002:
 				new RC1002(plugin, event);
 				break;
+			case 1003:
+				new RC1003(plugin, event);
+				break;
 			}
 		}
 
@@ -134,6 +137,9 @@ public class RedICListener implements Listener {
 					break;
 				case 1002:
 					RC1002.activate(sign, (event.getNewCurrent() > 0));
+					break;
+				case 1003:
+					RC1003.activate(sign, (event.getNewCurrent() > 0));
 					break;
 				}
 			}

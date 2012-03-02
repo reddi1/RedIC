@@ -34,3 +34,11 @@ SWITCH
 Thrid line: FromOffsetX:FromOffsetY:FromOffsetZ:width:length:height.
 Fourth line: ToOffsetX:ToOffsetY:ToOffsetZ
 
+
+RANDOM
+[RC1003]
+0:1:0:1:1:1
+0
+
+Thrid line: OffsetX:OffsetY:OffsetZ:width:length:height.
+Fourth line: 0 for one solid random color or 1 for all blocks individual random color
